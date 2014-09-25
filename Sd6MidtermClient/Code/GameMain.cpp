@@ -199,7 +199,7 @@ void Tag::update(float deltaTime)
 	{
 		g_users[ii]->update(deltaTime);
 		//remove them if they've timed out
-		if (g_users[ii]->m_lastReceivedPacketTime+.5f < currentTime)
+		if (g_users[ii]->m_lastReceivedPacketTime+5.f < currentTime)
 		{
 			g_users.erase(g_users.begin()+ii);
 			ii--;

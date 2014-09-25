@@ -21,6 +21,7 @@ public:
 	Vector2f m_position; //center of the entity
 	Vector2f m_target;
 	Vector2f m_velocity;
+	Vector2f m_deadReckoningVelocity;
 	float m_orientationDegrees;//0 east, to 359 counterclockwise
 	Color4f m_color;
 	bool m_isIt;

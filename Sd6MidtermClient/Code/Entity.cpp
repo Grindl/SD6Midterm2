@@ -18,6 +18,7 @@ Entity::Entity()
 	m_target = Vector2f(0,0);
 	m_isIt = false;
 	m_hasReachedCurrentTarget = false;
+	m_deadReckoningVelocity = Vector2f(0,0);
 }
 
 //----------------------------------------------------------------------------------------
@@ -47,7 +48,12 @@ void Entity::update(float deltaSeconds)
 		velocity = velocity.normalized();
 		m_position = m_position + (velocity * deltaSeconds * currentSpeed);
 	}
-	//,else, engage autonomous movement 
+	//else, engage autonomous movement
+	else
+	{
+		m_hasReachedCurrentTarget = true;
+		m_position = m_position + (m_deadReckoningVelocity * deltaSeconds * currentSpeed);
+	}
 
 	if (Color3b(m_color) == g_itColor)
 	{

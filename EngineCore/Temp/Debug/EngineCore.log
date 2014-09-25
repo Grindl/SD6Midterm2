@@ -1,4 +1,4 @@
-﻿Build started 9/25/2014 2:54:55 PM.
+﻿Build started 9/25/2014 3:13:37 PM.
      1>Project "D:\Git\SD6Midterm2\EngineCore\EngineCore.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Temp\Debug\EngineCore.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -66,4 +66,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.16
+Time Elapsed 00:00:00.17

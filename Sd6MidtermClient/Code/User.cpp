@@ -45,7 +45,13 @@ void User::processUpdatePacket(CS6Packet newData)
 			{
 
 				Vector2f nextTarget = Vector2f(newData.data.updated.xPosition, newData.data.updated.yPosition);
-				//,prepare the unit for autonomous movement
+				//prepare the unit for autonomous movement
+				m_unit.m_deadReckoningVelocity = nextTarget - m_unit.m_target;
+				m_unit.m_deadReckoningVelocity = m_unit.m_deadReckoningVelocity.normalized();
+				//if (!(m_unit.m_deadReckoningVelocity == Vector2f(0,0)))
+				//{
+					m_unit.m_hasReachedCurrentTarget = false;
+				//}
 				m_unit.m_target = nextTarget;
 				m_unit.m_velocity.x = newData.data.updated.xVelocity;
 				m_unit.m_velocity.y = newData.data.updated.yVelocity;
