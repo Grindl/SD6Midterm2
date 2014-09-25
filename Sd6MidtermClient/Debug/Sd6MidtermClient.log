@@ -1,0 +1,40 @@
+﻿Build started 9/25/2014 10:28:37 AM.
+     1>Project "D:\Git\SD6Midterm2\Sd6MidtermClient\Sd6MidtermClient.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\Sd6MidtermClient.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ID:\Git\SD6Midterm2\Sd6MidtermClient\..\EngineCore\Code\ /ZI /nologo /W4 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Code\Connection.cpp
+         Connection.cpp
+     1>d:\git\sd6midterm2\sd6midtermclient\code\connection.cpp(17): warning C4244: 'argument' : conversion from 'int' to 'u_short', possible loss of data
+     1>d:\git\sd6midterm2\sd6midtermclient\code\connection.cpp(20): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>d:\git\sd6midterm2\sd6midtermclient\code\connection.cpp(54): warning C4189: 'NEG1' : local variable is initialized but not referenced
+     1>d:\git\sd6midterm2\sd6midtermclient\code\connection.cpp(57): warning C4189: 'POS1D' : local variable is initialized but not referenced
+     1>d:\git\sd6midterm2\sd6midtermclient\code\connection.cpp(55): warning C4189: 'POS1' : local variable is initialized but not referenced
+     1>d:\git\sd6midterm2\sd6midtermclient\code\connection.cpp(56): warning C4189: 'NEG1D' : local variable is initialized but not referenced
+     1>d:\git\sd6midterm2\sd6midtermclient\code\connection.cpp(62): warning C4189: 'BREAKSUCCESS' : local variable is initialized but not referenced
+     1>d:\git\sd6midterm2\sd6midtermclient\code\connection.cpp(66): warning C4189: 'newError' : local variable is initialized but not referenced
+     1>d:\git\sd6midterm2\sd6midtermclient\code\connection.cpp(67): warning C4189: 'BREAKFAIL' : local variable is initialized but not referenced
+       ManifestResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Git\SD6Midterm2\Sd6MidtermClient\Debug\Sd6MidtermClient.exe" /INCREMENTAL /NOLOGO EngineCore.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Sd6MidtermClient.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Git\SD6Midterm2\Sd6MidtermClient\Debug\Sd6MidtermClient.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Git\SD6Midterm2\Sd6MidtermClient\Debug\Sd6MidtermClient.lib" /MACHINE:X86 Debug\Sd6MidtermClient.exe.embed.manifest.res
+         Debug\Camera.obj
+         Debug\Connection.obj
+         Debug\Entity.obj
+         Debug\GameMain.obj
+         Debug\User.obj
+         Debug\WIN32_Main.obj
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\Sd6MidtermClient.exe.embed.manifest" /manifest Debug\Sd6MidtermClient.exe.intermediate.manifest
+         All outputs are up-to-date.
+       LinkEmbedManifest:
+         All outputs are up-to-date.
+         Sd6MidtermClient.vcxproj -> D:\Git\SD6Midterm2\Sd6MidtermClient\Debug\Sd6MidtermClient.exe
+       FinalizeBuildStatus:
+         Deleting file "Debug\Sd6MidtermClient.unsuccessfulbuild".
+         Touching "Debug\Sd6MidtermClient.lastbuildstate".
+     1>Done Building Project "D:\Git\SD6Midterm2\Sd6MidtermClient\Sd6MidtermClient.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.11
