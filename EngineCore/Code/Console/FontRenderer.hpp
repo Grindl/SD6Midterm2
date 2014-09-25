@@ -17,6 +17,7 @@ public:
 
 	//TODO get the font to have an up vector as well as forward vector
 	void drawString(Vector3f startBottomLeft, std::string contentsToDraw);
+	void drawStringWithColor(Vector3f startBottomLeft, std::string contentsToDraw, Color4f drawColor);
 	static float CalcTextWidth(std::string contentsToMeasure, float heightOfText);
 };
 

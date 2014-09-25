@@ -243,8 +243,7 @@ void Tag::render()
 		glUseProgram(0);
 		char scoreBuffer[16];
 		sprintf_s(scoreBuffer, "%d", g_users[ii]->m_score);
-		glColor4f(g_users[ii]->m_unit.m_color.red, g_users[ii]->m_unit.m_color.green, g_users[ii]->m_unit.m_color.blue, g_users[ii]->m_unit.m_color.alphaValue);
-		m_console.m_log.m_fontRenderer.drawString(Vector3f(25.f,ii*(25.f+1),0), scoreBuffer);
+		m_console.m_log.m_fontRenderer.drawStringWithColor(Vector3f(25.f,ii*(25.f+1),0), scoreBuffer, g_users[ii]->m_unit.m_color);
 		glPopMatrix();
 	}
 
