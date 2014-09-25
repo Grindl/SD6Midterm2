@@ -23,6 +23,8 @@ public:
 	USER_TYPE m_userType;
 	bool m_isInGame;
 	double m_lastReceivedPacketTime;
+	unsigned int m_lastSentPacketNum;
+	unsigned int m_lastReceivedPacketNum;
 
 	CS6Packet sendInput();
 	void processUpdatePacket(CS6Packet newData);

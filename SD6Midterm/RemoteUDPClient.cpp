@@ -7,16 +7,33 @@
 extern SOCKET g_Socket;
 extern Color3b g_itColor;
 
+bool packetComparitor(CS6Packet lhs, CS6Packet rhs)
+{
+	return lhs.packetNumber < rhs.packetNumber;
+}
+
+
 RemoteUDPClient::RemoteUDPClient()
 {
 	m_isDeclaringVictory = false;
+	m_lastSentPacketNum = 1;
+	m_lastReceivedPacketNum = 0;
 	initializeTimeUtility();
 }
 
 void RemoteUDPClient::sendAllPendingPackets()
 {
 	double sendTime = getCurrentTimeSeconds();
-	//,loop through all the packets and set the send time and order number
+	//loop through all the packets and set the send time and order number
+	for (unsigned int outPacketIndex = 0; outPacketIndex < m_pendingPacketsToSend.size(); outPacketIndex++)
+	{
+		m_pendingPacketsToSend[outPacketIndex].timestamp = sendTime;
+		if (m_pendingPacketsToSend[outPacketIndex].packetNumber == 0)
+		{
+			m_lastSentPacketNum++;
+			m_pendingPacketsToSend[outPacketIndex].packetNumber = m_lastSentPacketNum;
+		}
+	}
 
 	//send the actual packets
 	int WSAResult;
@@ -49,7 +66,8 @@ const bool RemoteUDPClient::operator==(const RemoteUDPClient& rhs) const
 
 void RemoteUDPClient::processUnprocessedPackets()
 {
-	//,sort prior to processing
+	//sort prior to processing
+	std::sort(m_unprocessedPackets.begin(), m_unprocessedPackets.end(), packetComparitor);
 	while(!m_unprocessedPackets.empty())
 	{
 		CS6Packet currentPacket = m_unprocessedPackets.back();
@@ -86,24 +104,41 @@ void RemoteUDPClient::processUnprocessedPackets()
 					memcpy(resetPacket.data.reset.itPlayerColorAndID, &itColor, sizeof(itColor));
 					resetPacket.data.reset.playerXPosition = m_unit.m_position.x;
 					resetPacket.data.reset.playerYPosition = m_unit.m_position.y;
-					//,increment and set packet num
-					//,and make sure they get it
-					m_pendingPacketsToSend.push_back(resetPacket);
+					//increment and set packet num
+					m_lastSentPacketNum++;
+					resetPacket.packetNumber = m_lastSentPacketNum;
+					//and make sure they get it
+					m_pendingGuaranteedPackets.push_back(resetPacket);
 				}
-				//,else remove it from the non-acked list				
+				//else remove it from the non-acked list
+				else
+				{
+					for (unsigned int ackIndex = 0; ackIndex < m_pendingGuaranteedPackets.size(); ackIndex++)
+					{
+						if(currentPacket.data.acknowledged.packetNumber == m_pendingGuaranteedPackets[ackIndex].packetNumber)
+						{
+							m_pendingGuaranteedPackets.erase(m_pendingGuaranteedPackets.begin()+ackIndex);
+							ackIndex--;
+						}
+					}
+				}
 				break;
 			}
 		case TYPE_Update:
 			{
-				//,if more recent than the last
-				//update the relevant player in our data
-				Vector2f relativeVelocity = m_unit.m_position - Vector2f(currentPacket.data.updated.xPosition, currentPacket.data.updated.yPosition);
-				m_unit.m_position.x = currentPacket.data.updated.xPosition;
-				m_unit.m_position.y = currentPacket.data.updated.yPosition;
-				m_unit.m_velocity.x = currentPacket.data.updated.xVelocity;
-				m_unit.m_velocity.y = currentPacket.data.updated.yVelocity;
-				m_unit.m_orientation = currentPacket.data.updated.yawDegrees;
-				//,mark as most recent
+				//if more recent than the last
+				if (m_lastReceivedPacketNum < currentPacket.packetNumber)
+				{
+					//update the relevant player in our data
+					Vector2f relativeVelocity = m_unit.m_position - Vector2f(currentPacket.data.updated.xPosition, currentPacket.data.updated.yPosition);
+					m_unit.m_position.x = currentPacket.data.updated.xPosition;
+					m_unit.m_position.y = currentPacket.data.updated.yPosition;
+					m_unit.m_velocity.x = currentPacket.data.updated.xVelocity;
+					m_unit.m_velocity.y = currentPacket.data.updated.yVelocity;
+					m_unit.m_orientation = currentPacket.data.updated.yawDegrees;
+					//mark as most recent
+					m_lastReceivedPacketNum = currentPacket.packetNumber;
+				}
 				break;
 			}
 		case TYPE_Victory:

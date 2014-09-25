@@ -7,6 +7,8 @@ User::User()
 {
 	m_isInGame = false;
 	initializeTimeUtility();
+	m_lastSentPacketNum = 1;
+	m_lastReceivedPacketNum = 0;
 }
 
 CS6Packet User::sendInput()
@@ -18,7 +20,9 @@ CS6Packet User::sendInput()
 	else
 	{
 		CS6Packet outPacket = m_unit.packForSend();
-		//,assign packet number
+		//assign packet number
+		m_lastSentPacketNum++;
+		outPacket.packetNumber = m_lastSentPacketNum;
 		g_serverConnection->sendPacket(outPacket);
 		return outPacket;
 	}
@@ -36,24 +40,29 @@ void User::processUpdatePacket(CS6Packet newData)
 		}
 	case TYPE_Update:
 		{
-			//,if this packet is applicable for processing
-			Vector2f nextTarget = Vector2f(newData.data.updated.xPosition, newData.data.updated.yPosition);
-			//,prepare the unit for autonomous movement
-			m_unit.m_target = nextTarget;
-			m_unit.m_velocity.x = newData.data.updated.xVelocity;
-			m_unit.m_velocity.y = newData.data.updated.yVelocity;
-			m_unit.m_orientationDegrees = newData.data.updated.yawDegrees;
-			Color3b tempColor;
-			memcpy(&tempColor, newData.playerColorAndID, sizeof(tempColor));
-			m_unit.m_color = Color4f(tempColor);
-			//jump the player if the distance is too far
-			if (m_unit.m_position == Vector2f(0,0) || m_unit.m_position.distanceSquared(m_unit.m_target) > 400)
+			//if this packet is applicable for processing
+			if (m_lastReceivedPacketNum < newData.packetNumber)
 			{
-				m_unit.m_position.x = newData.data.updated.xPosition;
-				m_unit.m_position.y = newData.data.updated.yPosition;
 
+				Vector2f nextTarget = Vector2f(newData.data.updated.xPosition, newData.data.updated.yPosition);
+				//,prepare the unit for autonomous movement
+				m_unit.m_target = nextTarget;
+				m_unit.m_velocity.x = newData.data.updated.xVelocity;
+				m_unit.m_velocity.y = newData.data.updated.yVelocity;
+				m_unit.m_orientationDegrees = newData.data.updated.yawDegrees;
+				Color3b tempColor;
+				memcpy(&tempColor, newData.playerColorAndID, sizeof(tempColor));
+				m_unit.m_color = Color4f(tempColor);
+				//jump the player if the distance is too far
+				if (m_unit.m_position == Vector2f(0,0) || m_unit.m_position.distanceSquared(m_unit.m_target) > 400)
+				{
+					m_unit.m_position.x = newData.data.updated.xPosition;
+					m_unit.m_position.y = newData.data.updated.yPosition;
+
+				}
+				//and decide which packet should be processed next
+				m_lastReceivedPacketNum = newData.packetNumber;
 			}
-			//,and decide which packet should be processed next
 			break;
 		}
 	}

@@ -117,12 +117,18 @@ int main()
 		std::vector<CS6Packet> positionUpdatePackets;
 		for (unsigned int i = 0; i < g_clients.size(); i++)
 		{
-			//,check for timeout
-
-			//,else process all their pending packets and put their new position in the queue			
-			g_clients[i].processUnprocessedPackets();
-			positionUpdatePackets.push_back(g_clients[i].m_unit.packForSend());
-			//,also check to see if they have declared victory and propagate
+			//check for timeout
+			if (g_clients[i].hasTimedOut())
+			{
+				g_clients.erase(g_clients.begin()+i);
+				i--;
+			}
+			else
+			{
+				//else process all their pending packets and put their new position in the queue			
+				g_clients[i].processUnprocessedPackets();
+				positionUpdatePackets.push_back(g_clients[i].m_unit.packForSend());
+			}
 
 		}
 
@@ -155,12 +161,15 @@ int main()
 				g_clients[i].m_unit.m_position = Vector2f (rand()%500, rand()%500);
 				resetPkt.data.reset.playerXPosition = g_clients[i].m_unit.m_position.x;
 				resetPkt.data.reset.playerYPosition = g_clients[i].m_unit.m_position.y;
-				//,give a packet number
-				//,and add to the send list
-				g_clients[i].m_pendingPacketsToSend.push_back(resetPkt);
+				//give a packet number
+				g_clients[i].m_lastSentPacketNum++;
+				resetPkt.packetNumber = g_clients[i].m_lastSentPacketNum;
+				//and add to the send list
+				g_clients[i].m_pendingGuaranteedPackets.push_back(resetPkt);
 				
 			}
-			//,put all of the gameplay packets and non-acked guaranteed packets in to a vector to send to the player
+			//put all of the gameplay packets and non-acked guaranteed packets in to a vector to send to the player
+			g_clients[i].m_pendingPacketsToSend.insert(g_clients[i].m_pendingPacketsToSend.end(), g_clients[i].m_pendingGuaranteedPackets.begin(), g_clients[i].m_pendingGuaranteedPackets.end());
 			g_clients[i].m_pendingPacketsToSend.insert(g_clients[i].m_pendingPacketsToSend.end(), positionUpdatePackets.begin(), positionUpdatePackets.end());
 			//and then send it to them
 			g_clients[i].sendAllPendingPackets();

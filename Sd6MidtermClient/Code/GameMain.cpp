@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "Rendering\OpenGLFunctions.hpp"
 #include "Rendering\Texture.hpp"
 #include "Debug Graphics\DebugGraphics.hpp"
@@ -39,6 +41,11 @@ bool ChangeColor(std::string rgbaColor)
 {
 	g_localUser.m_unit.m_color = Color4f(rgbaColor);
 	return true;
+}
+
+bool packetComparitor(CS6Packet lhs, CS6Packet rhs)
+{
+	return lhs.packetNumber < rhs.packetNumber;
 }
 
 
@@ -119,11 +126,26 @@ void Tag::update(float deltaTime)
 	//	g_serverConnection->sendPacket(vicPacket);
 	//}
 
-	CS6Packet currentPacket;
+	std::vector<CS6Packet> currentPendingPackets;
+
+	CS6Packet inPacket;
 	do 
 	{
+		inPacket = g_serverConnection->receivePackets();
+		if (inPacket.packetType != 0)
+		{
+			currentPendingPackets.push_back(inPacket);
+		}
+	} while (inPacket.packetType != 0);
+
+	std::sort(currentPendingPackets.begin(), currentPendingPackets.end(), packetComparitor);
+
+	
+	while(!currentPendingPackets.empty())
+	{
 		bool newUser = true;
-		currentPacket = g_serverConnection->receivePackets();
+		CS6Packet currentPacket = currentPendingPackets.back();
+		currentPendingPackets.pop_back();
 		if (currentPacket.packetType == TYPE_GameStart)
 		{
 			//Reset type things
@@ -135,7 +157,17 @@ void Tag::update(float deltaTime)
 			g_localUser.m_isInGame = true;
 			//mark who is IT
 			memcpy(&g_itColor, currentPacket.data.reset.itPlayerColorAndID, sizeof(g_itColor));
-			//,and tell the server that you got the reset
+
+			//and tell the server that you got the reset
+			CS6Packet ackBack;
+			ackBack.packetType = TYPE_Acknowledge;
+			g_localUser.m_lastSentPacketNum++;
+			ackBack.packetNumber = g_localUser.m_lastSentPacketNum;
+			memcpy(ackBack.playerColorAndID, &packetColor, sizeof(packetColor));
+			ackBack.data.acknowledged.packetType = TYPE_GameStart;
+			ackBack.data.acknowledged.packetNumber = currentPacket.packetNumber;
+			g_serverConnection->sendPacket(ackBack);
+
 		}
 		else if (currentPacket.packetType != 0)
 		{
@@ -144,7 +176,7 @@ void Tag::update(float deltaTime)
 
 			for (unsigned int ii = 0; ii < g_users.size(); ii++)
 			{
-				
+
 				if (Color3b(g_users[ii]->m_unit.m_color) == packetColor)
 				{
 					newUser = false;
@@ -159,14 +191,19 @@ void Tag::update(float deltaTime)
 				g_users.push_back(tempUser);
 			}
 		}
-	} while (currentPacket.packetType != 0);
+	}
 
 	double currentTime = getCurrentTimeSeconds();
 
 	for (unsigned int ii = 0; ii < g_users.size(); ii++)
 	{
 		g_users[ii]->update(deltaTime);
-		//,remove them if they've timed out
+		//remove them if they've timed out
+		if (g_users[ii]->m_lastReceivedPacketTime+.5f < currentTime)
+		{
+			g_users.erase(g_users.begin()+ii);
+			ii--;
+		}
 	}
 
 	mouseUpdate();

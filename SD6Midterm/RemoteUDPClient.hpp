@@ -29,9 +29,12 @@ public:
 	struct sockaddr_in m_sockAddr;
 	Entity m_unit;
 	std::vector<CS6Packet> m_pendingPacketsToSend;
+	std::vector<CS6Packet> m_pendingGuaranteedPackets;
 	std::vector<CS6Packet> m_unprocessedPackets;
 	bool m_isDeclaringVictory;
 	double m_lastReceivedPacketTime;
+	unsigned int m_lastSentPacketNum;
+	unsigned int m_lastReceivedPacketNum;
 
 	void sendAllPendingPackets();
 	void processUnprocessedPackets();
