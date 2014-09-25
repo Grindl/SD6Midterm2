@@ -130,13 +130,25 @@ int main()
 				positionUpdatePackets.push_back(g_clients[i].m_unit.packForSend());
 			}
 
+			if (Color3b(g_clients[i].m_unit.m_color) == g_itColor)
+			{
+				itLocation = g_clients[i].m_unit.m_position;
+			}
 		}
 
 		for (unsigned int victimIndex = 0; victimIndex < g_clients.size(); victimIndex++)
 		{
+			bool playersTouching = false;
 			//,loop through all players to see if there is a victory condition
+			if (!(Color3b(g_clients[victimIndex].m_unit.m_color) == g_itColor))
+			{
+				if (g_clients[victimIndex].m_unit.m_position.distanceSquared(itLocation) < 100.f)
+				{
+					playersTouching = true;
+				}
+			}
 
-			if (false && !g_gameOver)
+			if (playersTouching && !g_gameOver)
 			{
 				std::cout<<"Game Over!\n";
 				g_gameOver = true;
@@ -144,7 +156,12 @@ int main()
 				CS6Packet vicPacket;
 				vicPacket.packetType = TYPE_Victory;
 				vicPacket.packetNumber = 0;
+				Color3b cleanedWinnerColor = Color3b(g_clients[victimIndex].m_unit.m_color);
+				memcpy(vicPacket.playerColorAndID, &cleanedWinnerColor, sizeof(cleanedWinnerColor));
+				memcpy(vicPacket.data.victorious.winningPlayerColorAndID, &cleanedWinnerColor, sizeof(cleanedWinnerColor));
+				memcpy(vicPacket.data.victorious.taggedPlayerColorAndID, &g_itColor, sizeof(g_itColor));
 				positionUpdatePackets.push_back(vicPacket);
+				g_itColor = Color3b(g_clients[victimIndex].m_unit.m_color);
 			}			
 		}
 
@@ -158,6 +175,7 @@ int main()
 				Color3b cleanedColor = Color3b(g_clients[i].m_unit.m_color);
 				memcpy(resetPkt.playerColorAndID, &cleanedColor, sizeof(cleanedColor));
 				memcpy(resetPkt.data.reset.playerColorAndID, &cleanedColor, sizeof(cleanedColor));
+				memcpy(resetPkt.data.reset.itPlayerColorAndID, &g_itColor, sizeof(g_itColor));
 				g_clients[i].m_unit.m_position = Vector2f (rand()%500, rand()%500);
 				resetPkt.data.reset.playerXPosition = g_clients[i].m_unit.m_position.x;
 				resetPkt.data.reset.playerYPosition = g_clients[i].m_unit.m_position.y;

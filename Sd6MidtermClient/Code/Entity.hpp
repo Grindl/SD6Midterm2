@@ -7,7 +7,7 @@
 #include "Primitives/Color4f.hpp"
 #include "CS6Packet.hpp"
 
-static const float IT_SPEED = 60.f;
+static const float IT_SPEED = 40.f;
 static const float VICTIM_SPEED = 50.f;
 
 

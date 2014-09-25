@@ -51,10 +51,6 @@ CS6Packet Connection::receivePackets()
 	currentData.packetType = 0;
 	int fromLength = sizeof(recvTarget);
 	int errorCode;
-	float NEG1 = -1.f;
-	float POS1 = 1.f;
-	double NEG1D = -1.0;
-	double POS1D = 1.0;
 
 	errorCode = recvfrom(m_Socket, (char*)&currentData, sizeof(currentData), 0, (sockaddr*)&recvTarget, &fromLength);
 	if (currentData.packetType != 0)

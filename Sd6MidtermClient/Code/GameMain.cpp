@@ -151,6 +151,8 @@ void Tag::update(float deltaTime)
 			//Reset type things
 			g_localUser.m_unit.m_position = Vector2f(currentPacket.data.reset.playerXPosition, currentPacket.data.reset.playerYPosition);
 			g_localUser.m_unit.m_target = g_localUser.m_unit.m_position;
+			g_localUser.m_unit.m_deadReckoningVelocity = Vector2f(0,0);
+			g_localUser.m_unit.m_hasReachedCurrentTarget = false;
 			Color3b packetColor = Color3b();
 			memcpy(&packetColor, currentPacket.data.reset.playerColorAndID, sizeof(packetColor));
 			g_localUser.m_unit.m_color = Color4f(packetColor);
