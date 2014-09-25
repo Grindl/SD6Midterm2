@@ -10,7 +10,6 @@ extern Color3b g_itColor;
 RemoteUDPClient::RemoteUDPClient()
 {
 	m_isDeclaringVictory = false;
-	m_nextPacketNumToSend = 1;
 	initializeTimeUtility();
 }
 
@@ -87,9 +86,7 @@ void RemoteUDPClient::processUnprocessedPackets()
 					memcpy(resetPacket.data.reset.itPlayerColorAndID, &itColor, sizeof(itColor));
 					resetPacket.data.reset.playerXPosition = m_unit.m_position.x;
 					resetPacket.data.reset.playerYPosition = m_unit.m_position.y;
-					m_nextPacketNumToSend++;
-					resetPacket.packetNumber = m_nextPacketNumToSend;
-					//increment and set packet num
+					//,increment and set packet num
 					//,and make sure they get it
 					m_pendingPacketsToSend.push_back(resetPacket);
 				}

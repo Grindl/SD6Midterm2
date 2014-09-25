@@ -6,7 +6,6 @@
 User::User()
 {
 	m_isInGame = false;
-	m_lastSentPacketNum = 0;
 	initializeTimeUtility();
 }
 
@@ -19,8 +18,7 @@ CS6Packet User::sendInput()
 	else
 	{
 		CS6Packet outPacket = m_unit.packForSend();
-		m_lastSentPacketNum++;
-		outPacket.packetNumber = m_lastSentPacketNum;
+		//,assign packet number
 		g_serverConnection->sendPacket(outPacket);
 		return outPacket;
 	}

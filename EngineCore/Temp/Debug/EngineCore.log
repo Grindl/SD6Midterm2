@@ -1,4 +1,4 @@
-﻿Build started 9/25/2014 10:23:22 AM.
+﻿Build started 9/25/2014 1:33:14 PM.
      1>Project "D:\Git\SD6Midterm2\EngineCore\EngineCore.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Temp\Debug\EngineCore.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -7,7 +7,7 @@
          All outputs are up-to-date.
        Lib:
          All outputs are up-to-date.
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"D:\Git\SD6Midterm2\Sd6MidtermClient\EngineCore.lib" /NOLOGO Temp\Debug\CommandParser.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"D:\Git\SD6Midterm2\SD6Midterm\EngineCore.lib" /NOLOGO Temp\Debug\CommandParser.obj
          Temp\Debug\Console.obj
          Temp\Debug\ConsoleLog.obj
          Temp\Debug\FontHandler.obj
@@ -58,7 +58,7 @@
          Temp\Debug\GameClock.obj
          Temp\Debug\IOHandler.obj
          Temp\Debug\XMLParser.obj
-         EngineCore.vcxproj -> D:\Git\SD6Midterm2\Sd6MidtermClient\EngineCore.lib
+         EngineCore.vcxproj -> D:\Git\SD6Midterm2\SD6Midterm\EngineCore.lib
        FinalizeBuildStatus:
          Deleting file "Temp\Debug\EngineCore.unsuccessfulbuild".
          Touching "Temp\Debug\EngineCore.lastbuildstate".
@@ -66,4 +66,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.14
+Time Elapsed 00:00:00.24

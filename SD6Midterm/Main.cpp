@@ -155,8 +155,7 @@ int main()
 				g_clients[i].m_unit.m_position = Vector2f (rand()%500, rand()%500);
 				resetPkt.data.reset.playerXPosition = g_clients[i].m_unit.m_position.x;
 				resetPkt.data.reset.playerYPosition = g_clients[i].m_unit.m_position.y;
-				g_clients[i].m_nextPacketNumToSend++;
-				resetPkt.packetNumber = g_clients[i].m_nextPacketNumToSend;
+				//,give a packet number
 				//,and add to the send list
 				g_clients[i].m_pendingPacketsToSend.push_back(resetPkt);
 				

@@ -22,7 +22,6 @@ public:
 	Entity m_unit;
 	USER_TYPE m_userType;
 	bool m_isInGame;
-	unsigned int m_lastSentPacketNum;
 	double m_lastReceivedPacketTime;
 
 	CS6Packet sendInput();

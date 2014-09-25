@@ -1,19 +1,23 @@
-﻿Build started 9/25/2014 10:28:37 AM.
+﻿Build started 9/25/2014 1:33:09 PM.
      1>Project "D:\Git\SD6Midterm2\Sd6MidtermClient\Sd6MidtermClient.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\Sd6MidtermClient.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ID:\Git\SD6Midterm2\Sd6MidtermClient\..\EngineCore\Code\ /ZI /nologo /W4 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Code\Connection.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ID:\Git\SD6Midterm2\Sd6MidtermClient\..\EngineCore\Code\ /ZI /nologo /W4 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Code\Connection.cpp Code\GameMain.cpp Code\User.cpp Code\WIN32_Main.cpp
+         User.cpp
+         Generating Code...
+         Compiling...
+         GameMain.cpp
+     1>d:\git\sd6midterm2\sd6midtermclient\code\gamemain.cpp(54): warning C4244: 'argument' : conversion from 'LONG' to 'float', possible loss of data
+     1>d:\git\sd6midterm2\sd6midtermclient\code\gamemain.cpp(54): warning C4244: 'argument' : conversion from 'LONG' to 'float', possible loss of data
+     1>d:\git\sd6midterm2\sd6midtermclient\code\gamemain.cpp(164): warning C4189: 'currentTime' : local variable is initialized but not referenced
+     1>d:\git\sd6midterm2\sd6midtermclient\code\gamemain.cpp(226): warning C4018: '<' : signed/unsigned mismatch
+     1>d:\git\sd6midterm2\sd6midtermclient\code\gamemain.cpp(235): warning C4100: 'scanCode' : unreferenced formal parameter
+     1>d:\git\sd6midterm2\sd6midtermclient\code\gamemain.cpp(235): warning C4100: 'asKey' : unreferenced formal parameter
+         Generating Code...
+         Skipping... (no relevant changes detected)
+         WIN32_Main.cpp
          Connection.cpp
-     1>d:\git\sd6midterm2\sd6midtermclient\code\connection.cpp(17): warning C4244: 'argument' : conversion from 'int' to 'u_short', possible loss of data
-     1>d:\git\sd6midterm2\sd6midtermclient\code\connection.cpp(20): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>d:\git\sd6midterm2\sd6midtermclient\code\connection.cpp(54): warning C4189: 'NEG1' : local variable is initialized but not referenced
-     1>d:\git\sd6midterm2\sd6midtermclient\code\connection.cpp(57): warning C4189: 'POS1D' : local variable is initialized but not referenced
-     1>d:\git\sd6midterm2\sd6midtermclient\code\connection.cpp(55): warning C4189: 'POS1' : local variable is initialized but not referenced
-     1>d:\git\sd6midterm2\sd6midtermclient\code\connection.cpp(56): warning C4189: 'NEG1D' : local variable is initialized but not referenced
-     1>d:\git\sd6midterm2\sd6midtermclient\code\connection.cpp(62): warning C4189: 'BREAKSUCCESS' : local variable is initialized but not referenced
-     1>d:\git\sd6midterm2\sd6midtermclient\code\connection.cpp(66): warning C4189: 'newError' : local variable is initialized but not referenced
-     1>d:\git\sd6midterm2\sd6midtermclient\code\connection.cpp(67): warning C4189: 'BREAKFAIL' : local variable is initialized but not referenced
        ManifestResourceCompile:
          All outputs are up-to-date.
        Link:
@@ -37,4 +41,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.11
+Time Elapsed 00:00:02.38
