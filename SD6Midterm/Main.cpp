@@ -128,18 +128,20 @@ int main()
 				//else process all their pending packets and put their new position in the queue			
 				g_clients[i].processUnprocessedPackets();
 				positionUpdatePackets.push_back(g_clients[i].m_unit.packForSend());
+
+				if (Color3b(g_clients[i].m_unit.m_color) == g_itColor)
+				{
+					itLocation = g_clients[i].m_unit.m_position;
+				}
 			}
 
-			if (Color3b(g_clients[i].m_unit.m_color) == g_itColor)
-			{
-				itLocation = g_clients[i].m_unit.m_position;
-			}
+
 		}
 
 		for (unsigned int victimIndex = 0; victimIndex < g_clients.size(); victimIndex++)
 		{
 			bool playersTouching = false;
-			//,loop through all players to see if there is a victory condition
+			//loop through all players to see if there is a victory condition
 			if (!(Color3b(g_clients[victimIndex].m_unit.m_color) == g_itColor))
 			{
 				if (g_clients[victimIndex].m_unit.m_position.distanceSquared(itLocation) < 100.f)
@@ -152,7 +154,7 @@ int main()
 			{
 				std::cout<<"Game Over!\n";
 				g_gameOver = true;
-				//,if so, put in a victory packet
+				//if so, put in a victory packet
 				CS6Packet vicPacket;
 				vicPacket.packetType = TYPE_Victory;
 				vicPacket.packetNumber = 0;

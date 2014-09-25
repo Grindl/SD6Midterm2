@@ -25,6 +25,7 @@ public:
 	double m_lastReceivedPacketTime;
 	unsigned int m_lastSentPacketNum;
 	unsigned int m_lastReceivedPacketNum;
+	int m_score;
 
 	CS6Packet sendInput();
 	void processUpdatePacket(CS6Packet newData);

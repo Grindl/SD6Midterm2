@@ -219,11 +219,14 @@ void Tag::render()
 
 	m_worldCamera.preRenderStep();
 
-	g_localUser.render(); //would show the "true" position if uncommented
+	glUseProgram(0);
+
+	//g_localUser.render(); //would show the "true" position if uncommented
 
 	for (unsigned int ii = 0; ii < g_users.size(); ii++)
 	{
 		g_users[ii]->render();
+
 	}
 
 	glUseProgram(m_renderer.m_shaderID);
@@ -232,11 +235,27 @@ void Tag::render()
 
 	m_renderer.m_singleFrameBuffer.postRenderStep();
 
+	for (unsigned int ii = 0; ii < g_users.size(); ii++)
+	{
+		glDisable(GL_DEPTH_TEST);
+		glPushMatrix();
+		glOrtho(1.0, 1024.0, 1.0, 1024.0/(16.0/9.0), 0, 1);
+		glUseProgram(0);
+		char scoreBuffer[16];
+		sprintf_s(scoreBuffer, "%d", g_users[ii]->m_score);
+		glColor4f(g_users[ii]->m_unit.m_color.red, g_users[ii]->m_unit.m_color.green, g_users[ii]->m_unit.m_color.blue, g_users[ii]->m_unit.m_color.alphaValue);
+		m_console.m_log.m_fontRenderer.drawString(Vector3f(25.f,ii*(25.f+1),0), scoreBuffer);
+		glPopMatrix();
+	}
+
 
 	if(m_displayConsole)
 	{
 		m_console.render();
 	}
+
+	
+
 }
 
 bool Tag::keyDownEvent(unsigned char asKey)

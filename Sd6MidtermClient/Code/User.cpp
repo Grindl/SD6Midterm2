@@ -9,6 +9,7 @@ User::User()
 	initializeTimeUtility();
 	m_lastSentPacketNum = 1;
 	m_lastReceivedPacketNum = 0;
+	m_score = 0;
 }
 
 CS6Packet User::sendInput()
@@ -69,6 +70,11 @@ void User::processUpdatePacket(CS6Packet newData)
 				//and decide which packet should be processed next
 				m_lastReceivedPacketNum = newData.packetNumber;
 			}
+			break;
+		}
+	case TYPE_Victory:
+		{
+			m_score++;
 			break;
 		}
 	}
